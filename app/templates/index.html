@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block css %}
+
+        #btn-center {
+            float: right;
+        }
+
+        h1 {
+            text-decoration: underline black;
+        }
+
+        .card {display:inline-block;}
+
+        .card-title a {
+            text-decoration:none;
+            color:black;
+        }
+
+        .card-title a:hover {
+            color:gold;
+            text-decoration: underline black;
+        }
+
+        
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<a href="{{ url_for('create_note') }}" id="btn-center" class="btn btn-success ">Add Note</a>
+<h1 class="mt-4 text-center ">Welcome To NoteBook</h1>
+
+{% for note in notes %}
+    <div class="card mt-4 ms-4" style="width: 18rem;">
+        <a href="{{ url_for('note_details', id=note.id) }}"><img src="{{ url_for('static', filename=note.img_name) }}" class="card-img-top" ></a>
+        <div class="card-body">
+            {% if note.title|length > 20 %}
+            <h5 class="card-title"><a href="{{ url_for('note_details', id=note.id) }}"> {{note.title|truncate(20)|title()}} </a> </h5>
+            {% else %}
+            <h5 class="card-title"><a href="{{ url_for('note_details', id=note.id) }}"> {{note.title|title()}} </a></h5>
+            {% endif %}
+            <p class="card-text"> {{ note.description|truncate(30) }} </p>
+
+            <a href="{{ url_for('update_note', id=note.id) }}" class="btn btn-success card-link">Update</a>
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger ms-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Delete
+            </button>
+        
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Do you want to delete!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="card-title"> {{note.title}} </h5>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{{ url_for('delete_note', id=note.id) }}"><button type="button" class="btn btn-danger">Yes</button></a>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </div>
+</div>
+{% endfor %}
+
+ 
+        
+{% endblock %}

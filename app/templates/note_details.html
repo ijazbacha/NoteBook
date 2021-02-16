@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block css %}
+
+h1{text-decoration: underline black;}
+        
+
+        
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<h1 class="mt-4"> {{ note.title }} </h1>
+<p> {{ note.description }} </p>
+<img src="{{ url_for('static', filename=note.img_name) }}" class="img-fluid mb-3" width="800px" height="600px" alt="">
+
+</div>
+
+{% endblock %}
